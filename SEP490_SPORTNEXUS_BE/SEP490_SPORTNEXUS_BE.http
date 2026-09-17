@@ -1,0 +1,6 @@
+@SEP490_SPORTNEXUS_BE_HostAddress = http://localhost:5254
+
+GET {{SEP490_SPORTNEXUS_BE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
