@@ -1,4 +1,4 @@
-namespace SEP490_SPORTNEXUS_BE.DTOs
+namespace SEP490_SPORTNEXUS_BE.Services.DTOs
 {
     public class RegisterRequest
     {

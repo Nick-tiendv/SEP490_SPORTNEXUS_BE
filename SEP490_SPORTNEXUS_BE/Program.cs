@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SEP490_SPORTNEXUS_BE.Models;
+using SEP490_SPORTNEXUS_BE.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

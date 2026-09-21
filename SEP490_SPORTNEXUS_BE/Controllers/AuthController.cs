@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SEP490_SPORTNEXUS_BE.Models;
-using SEP490_SPORTNEXUS_BE.DTOs;
 using System.Security.Cryptography;
 using System.Text;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities;
+using SEP490_SPORTNEXUS_BE.Repositories;
+using SEP490_SPORTNEXUS_BE.Services.DTOs;
 
-namespace SEP490_SPORTNEXUS_BE.Controllers
+namespace SEP490_SPORTNEXUS_BE.API.Controllers
 {
     [Route("api/auth")]
     [ApiController]

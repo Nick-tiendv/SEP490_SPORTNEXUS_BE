@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="SEP490_SPORTNEXUS_BE/SEP490_SPORTNEXUS_BE.csproj" />
+  <Project Path="SEP490_SPORTNEXUS.Repositories/SEP490_SPORTNEXUS_BE.Repositories.csproj" Id="6c02f92a-1e15-42d6-b7a9-8a0cd9d5f11f" />
+  <Project Path="SEP490_SPORTNEXUS.Services/SEP490_SPORTNEXUS_BE.Services.csproj" Id="9dea8749-6637-4b35-b30a-00411736b184" />
+  <Project Path="SEP490_SPORTNEXUS_BE/SEP490_SPORTNEXUS_BE.API.csproj" />
 </Solution>
