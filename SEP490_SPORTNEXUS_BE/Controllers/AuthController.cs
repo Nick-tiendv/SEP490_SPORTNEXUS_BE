@@ -4,7 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities;
 using SEP490_SPORTNEXUS_BE.Repositories;
-using SEP490_SPORTNEXUS_BE.Services.DTOs;
+using SEP490_SPORTNEXUS_BE.Services.RequestModel;
+using SEP490_SPORTNEXUS_BE.Services.ResponseModel;
 
 namespace SEP490_SPORTNEXUS_BE.API.Controllers
 {
