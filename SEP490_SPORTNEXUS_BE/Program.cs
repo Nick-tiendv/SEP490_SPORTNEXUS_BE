@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using SEP490_SPORTNEXUS_BE.Repositories;
+using SEP490_SPORTNEXUS_BE.Services.Implementations;
+using SEP490_SPORTNEXUS_BE.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
