@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SEP490_SPORTNEXUS_BE.Models;
+using SEP490_SPORTNEXUS_BE.Repositories;
+
 
 #nullable disable
 
-namespace SEP490_SPORTNEXUS_BE.Migrations
+namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

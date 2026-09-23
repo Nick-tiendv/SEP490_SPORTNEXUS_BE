@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SEP490_SPORTNEXUS_BE.Models
+namespace SEP490_SPORTNEXUS_BE.Repositories.Entities
 {
     public class Booking
     {

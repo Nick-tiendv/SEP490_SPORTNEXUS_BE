@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace SEP490_SPORTNEXUS_BE.Migrations
+namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

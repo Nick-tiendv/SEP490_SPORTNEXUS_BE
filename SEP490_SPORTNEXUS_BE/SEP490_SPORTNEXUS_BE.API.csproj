@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SEP490_SPORTNEXUS.Services\SEP490_SPORTNEXUS_BE.Services.csproj" />
   </ItemGroup>
 
 </Project>

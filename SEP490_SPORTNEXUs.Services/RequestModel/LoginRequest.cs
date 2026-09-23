@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SEP490_SPORTNEXUS_BE.Services.RequestModel
+{
+    public class LoginRequest
+    {
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
+    }
+}

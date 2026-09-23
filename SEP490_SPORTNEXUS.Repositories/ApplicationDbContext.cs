@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities;
 
-namespace SEP490_SPORTNEXUS_BE.Models
+namespace SEP490_SPORTNEXUS_BE.Repositories
 {
     public class ApplicationDbContext : DbContext
     {
