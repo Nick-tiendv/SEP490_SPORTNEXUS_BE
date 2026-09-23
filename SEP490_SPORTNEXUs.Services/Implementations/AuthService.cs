@@ -20,10 +20,9 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
         {
             _context = context;
         }
-
         public async Task<ApiResponse<object?>> RegisterAsync(RegisterRequest request)
         {
-            if (await _context.Users.AnyAsync(u => u.Username == request.Username))
+            if (await _context.Accounts.AnyAsync(a => a.Username == request.Username))
             {
                 return new ApiResponse<object?>
                 {
@@ -32,12 +31,24 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                     Data = null
                 };
             }
-            _context.Users.Add(new User
+            var playerRole = await _context.Roles
+                .FirstOrDefaultAsync(r => r.Id == RoleIds.Player || r.Name == "Player");
+            if (playerRole == null)
             {
+                return new ApiResponse<object?>
+                {
+                    StatusCode = 500,
+                    Message = "Default role is not configured",
+                    Data = null
+                };
+            }
+            _context.Accounts.Add(new Account
+            {
+                Id = Guid.NewGuid(),
                 Username = request.Username,
                 PasswordHash = HashPassword(request.Password),
                 FullName = request.FullName,
-                Role = "Player",
+                RoleId = playerRole.Id,
                 WalletBalance = 0
             });
             await _context.SaveChangesAsync();
@@ -50,8 +61,10 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
         }
         public async Task<ApiResponse<LoginResponse?>> LoginAsync(LoginRequest request)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
-            if (user == null || user.PasswordHash != HashPassword(request.Password))
+            var account = await _context.Accounts
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(a => a.Username == request.Username);
+            if (account == null || account.PasswordHash != HashPassword(request.Password))
             {
                 return new ApiResponse<LoginResponse?>
                 {
@@ -66,7 +79,7 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
             {
                 StatusCode = 200,
                 Message = "Login successful",
-                Data = new LoginResponse { Token = mockToken, FullName = user.FullName }
+                Data = new LoginResponse { Token = mockToken, FullName = account.FullName }
             };
         }
         private string HashPassword(string password)
