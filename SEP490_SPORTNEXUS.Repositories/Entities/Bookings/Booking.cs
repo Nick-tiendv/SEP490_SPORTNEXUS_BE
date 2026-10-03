@@ -1,9 +1,11 @@
 using SEP490_SPORTNEXUS_BE.Repositories.Abstraction;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SEP490_SPORTNEXUS_BE.Repositories.Entities
+namespace SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings
 {
     public class Booking : Entity<Guid>
     {

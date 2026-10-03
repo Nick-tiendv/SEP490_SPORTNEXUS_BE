@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SEP490_SPORTNEXUS_BE.Repositories;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using SEP490_SPORTNEXUS_BE.Services.IServices;
 using SEP490_SPORTNEXUS_BE.Services.RequestModel;
 using SEP490_SPORTNEXUS_BE.Services.ResponseModel;
@@ -34,7 +35,14 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                     FullName = a.FullName,
                     RoleId = a.RoleId,
                     RoleName = a.Role.Name,
-                    WalletBalance = a.WalletBalance
+                    WalletBalance = a.WalletBalance,
+                    Phone = a.Phone,
+                    Email = a.Email,
+                    AvatarUrl = a.AvatarUrl,
+                    FairPlayScore = a.FairPlayScore,
+                    IsActive = a.IsActive,
+                    CreateAt = a.CreateAt,
+                    ModifiedAt = a.ModifiedAt
                 })
                 .ToListAsync();
 
@@ -69,7 +77,14 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 FullName = a.FullName,
                 RoleId = a.RoleId,
                 RoleName = a.Role.Name,
-                WalletBalance = a.WalletBalance
+                WalletBalance = a.WalletBalance,
+                Phone = a.Phone,
+                Email = a.Email,
+                AvatarUrl = a.AvatarUrl,
+                FairPlayScore = a.FairPlayScore,
+                IsActive = a.IsActive,
+                CreateAt = a.CreateAt,
+                ModifiedAt = a.ModifiedAt
             };
 
             return new ApiResponse<AccountReponse?>
@@ -110,7 +125,12 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 PasswordHash = HashPassword(request.Password ?? Guid.NewGuid().ToString()),
                 FullName = request.FullName,
                 RoleId = request.RoleId,
-                WalletBalance = request.WalletBalance
+                WalletBalance = request.WalletBalance,
+                Phone = request.Phone,
+                Email = request.Email,
+                AvatarUrl = request.AvatarUrl,
+                FairPlayScore = request.FairPlayScore,
+                IsActive = request.IsActive
             };
 
             _context.Accounts.Add(account);
@@ -123,7 +143,14 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 FullName = account.FullName,
                 RoleId = account.RoleId,
                 RoleName = role.Name,
-                WalletBalance = account.WalletBalance
+                WalletBalance = account.WalletBalance,
+                Phone = account.Phone,
+                Email = account.Email,
+                AvatarUrl = account.AvatarUrl,
+                FairPlayScore = account.FairPlayScore,
+                IsActive = account.IsActive,
+                CreateAt = account.CreateAt,
+                ModifiedAt = account.ModifiedAt
             };
 
             return new ApiResponse<AccountReponse?>
@@ -191,6 +218,13 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 account.WalletBalance = request.WalletBalance.Value;
             }
 
+            if (!string.IsNullOrWhiteSpace(request.Phone)) account.Phone = request.Phone;
+            if (!string.IsNullOrWhiteSpace(request.Email)) account.Email = request.Email;
+            if (request.AvatarUrl != null) account.AvatarUrl = request.AvatarUrl;
+            if (request.FairPlayScore.HasValue) account.FairPlayScore = request.FairPlayScore.Value;
+            if (request.IsActive.HasValue) account.IsActive = request.IsActive.Value;
+            account.ModifiedAt = DateTimeOffset.UtcNow;
+
             await _context.SaveChangesAsync();
 
             var updated = await _context.Accounts
@@ -204,7 +238,14 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 FullName = updated.FullName,
                 RoleId = updated.RoleId,
                 RoleName = updated.Role.Name,
-                WalletBalance = updated.WalletBalance
+                WalletBalance = updated.WalletBalance,
+                Phone = updated.Phone,
+                Email = updated.Email,
+                AvatarUrl = updated.AvatarUrl,
+                FairPlayScore = updated.FairPlayScore,
+                IsActive = updated.IsActive,
+                CreateAt = updated.CreateAt,
+                ModifiedAt = updated.ModifiedAt
             };
 
             return new ApiResponse<AccountReponse?>

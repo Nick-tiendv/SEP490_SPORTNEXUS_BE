@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace SEP490_SPORTNEXUS_BE.Repositories.Entities
+namespace SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities
 {
     public class Role : Entity<Guid>
     {
