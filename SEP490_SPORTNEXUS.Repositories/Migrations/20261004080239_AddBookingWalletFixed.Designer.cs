@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using SEP490_SPORTNEXUS_BE.Repositories;
 namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261004080239_AddBookingWalletFixed")]
+    partial class AddBookingWalletFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +35,6 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 
                     b.Property<Guid>("CourtSlotId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DynamicQRCode")
                         .HasColumnType("text");
@@ -91,7 +91,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BookingParticipants");
+                    b.ToTable("BookingParticipant");
                 });
 
             modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities.Court", b =>
@@ -314,7 +314,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Finances.Wallet", b =>
@@ -340,7 +340,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallet");
                 });
 
             modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Account", b =>

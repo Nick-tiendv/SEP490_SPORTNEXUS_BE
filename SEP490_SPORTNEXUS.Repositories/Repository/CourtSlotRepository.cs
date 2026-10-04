@@ -21,6 +21,13 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Repository
                 .ToListAsync();
         }
 
+        
+        public async Task<CourtSlot?> GetSlotForUpdateAsync(Guid slotId)
+        {
+            return await _context.CourtSlots
+                .FromSqlInterpolated($"SELECT * FROM \"CourtSlots\" WHERE \"Id\" = {slotId} FOR UPDATE")
+                .FirstOrDefaultAsync();
+        }
         public async Task BulkInsertSlotsAsync(List<CourtSlot> slots)
         {
             await _context.CourtSlots.AddRangeAsync(slots);
