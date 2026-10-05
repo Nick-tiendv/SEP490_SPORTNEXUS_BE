@@ -16,11 +16,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SEP490_SPORTNEXUS_BE.API.Controllers
 {
     [Route("api/v1/seeder")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class SeederController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
