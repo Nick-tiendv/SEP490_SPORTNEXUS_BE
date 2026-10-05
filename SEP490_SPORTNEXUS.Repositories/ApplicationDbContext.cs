@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Finances;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities;
 using SEP490_SPORTNEXUS_BE.Repositories.Enums;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
@@ -18,6 +19,10 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<Court> Courts { get; set; }
         public DbSet<CourtSlot> CourtSlots { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BookingParticipant> BookingParticipants { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<SportCategory> SportCategories { get; set; }
@@ -41,16 +46,8 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
                 .WithMany(r => r.Accounts)
                 .HasForeignKey(a => a.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Court)
-                .WithMany()
-                .HasForeignKey(b => b.CourtId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Player)
-                .WithMany()
-                .HasForeignKey(b => b.PlayerId)
-                .OnDelete(DeleteBehavior.Cascade);
+            
+            
 
             modelBuilder.Entity<Team>()
                 .HasOne(t => t.CreatedBy)
@@ -105,6 +102,23 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
                 .WithMany()
                 .HasForeignKey(c => c.CourtId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<BookingParticipant>()
+                .Property(bp => bp.PaymentStatus)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.Type)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Wallet>()
+                .HasIndex(w => w.UserId)
+                .IsUnique();
 
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = RoleIds.Player, Name = "Player" },
