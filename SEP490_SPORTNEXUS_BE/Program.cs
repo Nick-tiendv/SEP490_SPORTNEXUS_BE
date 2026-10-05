@@ -1,18 +1,48 @@
 using Microsoft.EntityFrameworkCore;
-using SEP490_SPORTNEXUS_BE.Models;
+using SEP490_SPORTNEXUS_BE.Repositories;
+using SEP490_SPORTNEXUS_BE.Services.Implementations;
+using SEP490_SPORTNEXUS_BE.Services.IServices;
+using SEP490_SPORTNEXUS_BE.Repositories.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IMasterDataRepository, MasterDataRepository>();
+builder.Services.AddScoped<IFacilityRepository, FacilityRepository>();
+builder.Services.AddScoped<ICourtRepository, CourtRepository>();
+builder.Services.AddScoped<ICourtSlotRepository, CourtSlotRepository>();
+builder.Services.AddScoped<IMasterDataService, MasterDataService>();
+builder.Services.AddScoped<IFacilityService, FacilityService>();
+builder.Services.AddScoped<ICourtService, CourtService>();
+builder.Services.AddScoped<ICourtSlotService, CourtSlotService>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ILfgCardRepository, LfgCardRepository>();
+builder.Services.AddScoped<ICommunityPostRepository, CommunityPostRepository>();
+builder.Services.AddScoped<ILfgService, LfgService>();
+builder.Services.AddScoped<ICommunityService, CommunityService>();
+builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
+builder.Services.AddScoped<IBracketMatchRepository, BracketMatchRepository>();
+builder.Services.AddScoped<ITournamentService, TournamentService>();
+builder.Services.AddScoped<ICheckInService, CheckInService>();
+builder.Services.AddScoped<IAiAssistantService, AiAssistantService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Đọc chuỗi kết nối và khai báo dùng PostgreSQL
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSingleton<SEP490_SPORTNEXUS_BE.Repositories.Interceptors.AuditInterceptor>();
+builder.Services.AddDbContext<ApplicationDbContext>((sp, options) => {
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite());
+    options.AddInterceptors(sp.GetRequiredService<SEP490_SPORTNEXUS_BE.Repositories.Interceptors.AuditInterceptor>());
+});
 
 // (Tùy chọn) Cấu hình CORS để frontend có thể gọi API
 builder.Services.AddCors(options =>
