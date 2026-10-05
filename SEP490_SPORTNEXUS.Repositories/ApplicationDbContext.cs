@@ -33,6 +33,9 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<TournamentParticipant> TournamentParticipants { get; set; }
         public DbSet<BracketMatch> BracketMatches { get; set; }
         public DbSet<MatchScoreDetail> MatchScoreDetails { get; set; }
+        public DbSet<CheckInLog> CheckInLogs { get; set; }
+        public DbSet<FairPlayRating> FairPlayRatings { get; set; }
+
 
 
 

@@ -25,5 +25,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Entities.Socials
         [Required]
         [MaxLength(20)]
         public LfgParticipantStatus Status { get; set; } = LfgParticipantStatus.PENDING;
+        public string? QrCode { get; set; }
+        public bool IsCheckedIn { get; set; } = false;
     }
 }

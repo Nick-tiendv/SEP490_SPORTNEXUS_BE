@@ -23,5 +23,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Entities.Tournaments
 
         [MaxLength(20)]
         public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.PENDING;
+        public string? QrCode { get; set; }
+        public bool IsCheckedIn { get; set; } = false;
     }
 }
