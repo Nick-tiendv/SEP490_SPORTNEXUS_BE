@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.MasterData;
 
 namespace SEP490_SPORTNEXUS_BE.Repositories
 {
@@ -17,6 +18,13 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<SportCategory> SportCategories { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
+        public DbSet<FacilityImage> FacilityImages { get; set; }
+        public DbSet<FacilityAmenity> FacilityAmenities { get; set; }
+        public DbSet<FacilityReview> FacilityReviews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -59,6 +67,33 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
                 .WithMany()
                 .HasForeignKey(tm => tm.AccountId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<FacilityAmenity>()
+                .HasKey(fa => new { fa.FacilityId, fa.AmenityId });
+
+            modelBuilder.Entity<Facility>()
+                .HasOne(f => f.Owner)
+                .WithMany()
+                .HasForeignKey(f => f.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FacilityReview>()
+                .HasOne(fr => fr.User)
+                .WithMany()
+                .HasForeignKey(fr => fr.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Court>()
+                .HasOne(c => c.Facility)
+                .WithMany(f => f.Courts)
+                .HasForeignKey(c => c.FacilityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Court>()
+                .HasOne(c => c.Category)
+                .WithMany()
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = RoleIds.Player, Name = "Player" },
                 new Role { Id = RoleIds.Owner, Name = "Owner" },
