@@ -29,6 +29,7 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 Id = c.Id, FacilityId = c.FacilityId, CategoryId = c.CategoryId,
                 CategoryName = c.Category?.Name ?? "", Name = c.Name, Status = c.Status, DefaultPrice = c.DefaultPrice
             });
+            if (!mapped.Any()) return new ApiResponse<IEnumerable<CourtResponse>> { StatusCode = 200, Message = "Sân này hiện chưa có cụm sân con nào", Data = mapped };
             return new ApiResponse<IEnumerable<CourtResponse>> { StatusCode = 200, Message = "Success", Data = mapped };
         }
 

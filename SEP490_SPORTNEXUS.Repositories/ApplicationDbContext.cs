@@ -6,6 +6,7 @@ using SEP490_SPORTNEXUS_BE.Repositories.Enums;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Socials;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Tournaments;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.AiAssistant;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.System;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.MasterData;
 
@@ -38,6 +39,11 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<FairPlayRating> FairPlayRatings { get; set; }
         public DbSet<AiChatSession> AiChatSessions { get; set; }
         public DbSet<AiPromptLog> AiPromptLogs { get; set; }
+        public DbSet<PaymentGatewayLog> PaymentGatewayLogs { get; set; }
+        public DbSet<BookingCancellation> BookingCancellations { get; set; }
+        public DbSet<NotificationLog> NotificationLogs { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
+
 
 
 
@@ -189,6 +195,10 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
                 .WithMany()
                 .HasForeignKey(bm => bm.WinnerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BookingCancellation>()
+                .HasIndex(bc => bc.BookingId)
+                .IsUnique();
 
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = RoleIds.Player, Name = "Player" },

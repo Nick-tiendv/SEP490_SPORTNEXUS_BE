@@ -30,14 +30,19 @@ builder.Services.AddScoped<IBracketMatchRepository, BracketMatchRepository>();
 builder.Services.AddScoped<ITournamentService, TournamentService>();
 builder.Services.AddScoped<ICheckInService, CheckInService>();
 builder.Services.AddScoped<IAiAssistantService, AiAssistantService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Đọc chuỗi kết nối và khai báo dùng PostgreSQL
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+builder.Services.AddSingleton<SEP490_SPORTNEXUS_BE.Repositories.Interceptors.AuditInterceptor>();
+builder.Services.AddDbContext<ApplicationDbContext>((sp, options) => {
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite());
+    options.AddInterceptors(sp.GetRequiredService<SEP490_SPORTNEXUS_BE.Repositories.Interceptors.AuditInterceptor>());
+});
 
 // (Tùy chọn) Cấu hình CORS để frontend có thể gọi API
 builder.Services.AddCors(options =>
