@@ -5,6 +5,7 @@ using SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities;
 using SEP490_SPORTNEXUS_BE.Repositories.Enums;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Socials;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Tournaments;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.AiAssistant;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.MasterData;
 
@@ -35,6 +36,9 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<MatchScoreDetail> MatchScoreDetails { get; set; }
         public DbSet<CheckInLog> CheckInLogs { get; set; }
         public DbSet<FairPlayRating> FairPlayRatings { get; set; }
+        public DbSet<AiChatSession> AiChatSessions { get; set; }
+        public DbSet<AiPromptLog> AiPromptLogs { get; set; }
+
 
 
 
