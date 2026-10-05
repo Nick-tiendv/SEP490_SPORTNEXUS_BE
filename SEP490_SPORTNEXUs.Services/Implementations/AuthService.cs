@@ -61,6 +61,30 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 Data = null
             };
         }
+
+        public async Task<ApiResponse<object?>> RegisterAdminAsync(RegisterRequest request)
+        {
+            var exist = await _context.Accounts.FirstOrDefaultAsync(x => x.Username == request.Username || x.Email == request.Email);
+            if (exist != null) return new ApiResponse<object?> { StatusCode = 400, Message = "Username or Email already exists", Data = null };
+
+            var adminRole = await _context.Roles.FirstOrDefaultAsync(r => r.Id == RoleIds.Admin || r.Name == "Admin");
+            if (adminRole == null) return new ApiResponse<object?> { StatusCode = 500, Message = "Admin role is not configured", Data = null };
+
+            var acc = new Account {
+                Id = Guid.NewGuid(),
+                Username = request.Username,
+                PasswordHash = HashPassword(request.Password),
+                FullName = request.FullName,
+                Phone = request.Phone,
+                Email = request.Email,
+                RoleId = adminRole.Id,
+            };
+            _context.Accounts.Add(acc);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponse<object?> { StatusCode = 200, Message = "Admin created successful", Data = null };
+        }
+
         public async Task<ApiResponse<LoginResponse?>> LoginAsync(LoginRequest request)
         {
             var account = await _context.Accounts

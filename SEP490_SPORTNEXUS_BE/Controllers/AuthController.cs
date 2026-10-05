@@ -22,6 +22,14 @@ namespace SEP490_SPORTNEXUS_BE.API.Controllers
             var result = await _authService.RegisterAsync(request);
             return StatusCode(result.StatusCode, result);
         }
+        
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterRequest request)
+        {
+            var result = await _authService.RegisterAdminAsync(request);
+            return StatusCode(result.StatusCode, result);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
