@@ -47,13 +47,14 @@ namespace SEP490_SPORTNEXUS_BE.API.Controllers
                 // 1. ACCOUNTS & WALLETS
                 var accounts = new List<Account>();
                 var wallets = new List<Wallet>();
+                string uniqueSuffix = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
                 for (int i = 0; i < 10; i++)
                 {
                     var acc = new Account {
                         Id = Guid.NewGuid(),
-                        Username = "user" + i,
-                        Phone = "090000000" + i,
-                        Email = $"user{i}@test.com",
+                        Username = "user" + i + "_" + uniqueSuffix,
+                        Phone = "090" + rand.Next(1000000, 9999999),
+                        Email = $"user{i}_{uniqueSuffix}@test.com",
                         PasswordHash = "hash",
                         FullName = "Test User " + i,
                         RoleId = i < 3 ? ownerRole.Id : playerRole.Id,
