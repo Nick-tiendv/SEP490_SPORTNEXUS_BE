@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SEP490_SPORTNEXUS_BE.Repositories;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Finances;
@@ -148,6 +149,45 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
             {
                 await transaction.RollbackAsync();
                 return new ApiResponse<object?> { StatusCode = 500, Message = "Lỗi hệ thống: " + ex.Message, Data = null };
+            }
+        }
+
+
+        public async Task<ApiResponse<object?>> CancelBookingAsync(Guid bookingId, Guid userId, string reason)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try {
+                var booking = await _context.Bookings.Include(b => b.CourtSlot).FirstOrDefaultAsync(b => b.Id == bookingId);
+                if (booking == null) return new ApiResponse<object?> { StatusCode = 404, Message = "Booking not found" };
+
+                var timeDiff = booking.CourtSlot!.StartTime - DateTime.UtcNow;
+                decimal refundPct = 0;
+                if (timeDiff.TotalHours >= 24) refundPct = 1.0m;
+                else if (timeDiff.TotalHours >= 12) refundPct = 0.5m;
+                else refundPct = 0m;
+
+                decimal refundAmount = booking.TotalAmount * refundPct;
+                decimal penaltyAmount = booking.TotalAmount - refundAmount;
+
+                var cancelLog = new SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings.BookingCancellation {
+                    Id = Guid.NewGuid(), BookingId = bookingId, CancelledBy = userId, Reason = reason,
+                    RefundAmount = refundAmount, PenaltyAmount = penaltyAmount
+                };
+                _context.Set<SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings.BookingCancellation>().Add(cancelLog);
+
+                // Refund to Wallet
+                var wallet = await _walletRepo.GetOrCreateWalletAsync(booking.HostId);
+                wallet.Balance += refundAmount;
+                _context.Wallets.Update(wallet);
+
+                booking.Status = BookingStatus.CANCELLED;
+                booking.CourtSlot.Status = CourtSlotStatus.Available;
+
+                await _context.SaveChangesAsync();
+                await tx.CommitAsync();
+                return new ApiResponse<object?> { StatusCode = 200, Message = $"Hủy đơn thành công. Hoàn tiền: {refundAmount}, Phạt: {penaltyAmount}" };
+            } catch (Exception ex) {
+                await tx.RollbackAsync(); return new ApiResponse<object?> { StatusCode = 500, Message = ex.Message };
             }
         }
 

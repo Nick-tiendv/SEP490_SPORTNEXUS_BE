@@ -31,6 +31,7 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 .OrderByDescending(s => s.CreatedAt)
                 .Select(s => new { s.Id, s.SessionTitle, s.CreatedAt })
                 .ToListAsync();
+            if (!sessions.Any()) return new ApiResponse<object?> { StatusCode = 200, Message = "Bạn chưa có phiên chat AI nào", Data = sessions };
             return new ApiResponse<object?> { StatusCode = 200, Message = "Success", Data = sessions };
         }
 
@@ -41,6 +42,7 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 .OrderBy(m => m.CreatedAt)
                 .Select(m => new { m.Id, m.Sender, m.Message, m.IntentExtracted, m.CreatedAt })
                 .ToListAsync();
+            if (!messages.Any()) return new ApiResponse<object?> { StatusCode = 200, Message = "Chưa có đoạn chat nào", Data = messages };
             return new ApiResponse<object?> { StatusCode = 200, Message = "Success", Data = messages };
         }
 

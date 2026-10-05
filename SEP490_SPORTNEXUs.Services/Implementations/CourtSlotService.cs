@@ -91,6 +91,7 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 Status = s.Status.ToString()
             });
 
+            if (!mapped.Any()) return new ApiResponse<IEnumerable<CourtSlotResponse>> { StatusCode = 200, Message = "Không có ca trống nào trong ngày này", Data = mapped };
             return new ApiResponse<IEnumerable<CourtSlotResponse>> { StatusCode = 200, Message = "Success", Data = mapped };
         }
 

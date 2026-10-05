@@ -72,6 +72,7 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 .Where(t => !t.ParentTournamentId.HasValue) // Lấy giải mẹ
                 .Select(t => new { t.Id, t.Name, t.Status })
                 .ToListAsync();
+            if (!tours.Any()) return new ApiResponse<object?> { StatusCode = 200, Message = "Hiện không có giải đấu nào đang mở", Data = tours };
             return new ApiResponse<object?> { StatusCode = 200, Message = "Success", Data = tours };
         }
 
