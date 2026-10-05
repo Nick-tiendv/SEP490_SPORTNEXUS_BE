@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities;
+using SEP490_SPORTNEXUS_BE.Repositories.Enums;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.MasterData;
 
@@ -15,6 +16,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Court> Courts { get; set; }
+        public DbSet<CourtSlot> CourtSlots { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
@@ -93,6 +95,16 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
                 .WithMany()
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CourtSlot>()
+                .Property(c => c.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<CourtSlot>()
+                .HasOne(c => c.Court)
+                .WithMany()
+                .HasForeignKey(c => c.CourtId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = RoleIds.Player, Name = "Player" },
