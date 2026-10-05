@@ -40,6 +40,7 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Interceptors
                 foreach (var prop in entry.Properties)
                 {
                     if (prop.IsTemporary) continue;
+                    if (prop.Metadata.ClrType == typeof(NetTopologySuite.Geometries.Point) || prop.Metadata.ClrType.IsSubclassOf(typeof(NetTopologySuite.Geometries.Geometry))) continue;
                     
                     if (entry.State == EntityState.Deleted)
                     {
@@ -59,8 +60,9 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Interceptors
                     }
                 }
 
-                if (oldValues.Count > 0) auditEntry.OldValues = JsonSerializer.Serialize(oldValues);
-                if (newValues.Count > 0) auditEntry.NewValues = JsonSerializer.Serialize(newValues);
+                var jsonOptions = new JsonSerializerOptions { NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals, ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles };
+                if (oldValues.Count > 0) auditEntry.OldValues = JsonSerializer.Serialize(oldValues, jsonOptions);
+                if (newValues.Count > 0) auditEntry.NewValues = JsonSerializer.Serialize(newValues, jsonOptions);
 
                 auditEntries.Add(auditEntry);
             }
