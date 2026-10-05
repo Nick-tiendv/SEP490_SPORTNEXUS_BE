@@ -4,6 +4,7 @@ using SEP490_SPORTNEXUS_BE.Repositories.Entities.Finances;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities;
 using SEP490_SPORTNEXUS_BE.Repositories.Enums;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Socials;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Tournaments;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using SEP490_SPORTNEXUS_BE.Repositories.Entities.MasterData;
 
@@ -27,6 +28,12 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
         public DbSet<LfgParticipant> LfgParticipants { get; set; }
         public DbSet<CommunityPost> CommunityPosts { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<TournamentPrize> TournamentPrizes { get; set; }
+        public DbSet<TournamentParticipant> TournamentParticipants { get; set; }
+        public DbSet<BracketMatch> BracketMatches { get; set; }
+        public DbSet<MatchScoreDetail> MatchScoreDetails { get; set; }
+
 
 
         public DbSet<Team> Teams { get; set; }
@@ -145,6 +152,36 @@ namespace SEP490_SPORTNEXUS_BE.Repositories
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Tournament>()
+                .Property(t => t.CategoryType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Tournament>()
+                .Property(t => t.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<TournamentParticipant>()
+                .Property(tp => tp.PaymentStatus)
+                .HasConversion<string>();
+                
+            modelBuilder.Entity<BracketMatch>()
+                .HasOne(bm => bm.Participant1)
+                .WithMany()
+                .HasForeignKey(bm => bm.Participant1Id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BracketMatch>()
+                .HasOne(bm => bm.Participant2)
+                .WithMany()
+                .HasForeignKey(bm => bm.Participant2Id)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            modelBuilder.Entity<BracketMatch>()
+                .HasOne(bm => bm.Winner)
+                .WithMany()
+                .HasForeignKey(bm => bm.WinnerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = RoleIds.Player, Name = "Player" },
