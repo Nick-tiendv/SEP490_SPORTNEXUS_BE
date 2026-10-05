@@ -25,6 +25,9 @@ builder.Services.AddScoped<ILfgCardRepository, LfgCardRepository>();
 builder.Services.AddScoped<ICommunityPostRepository, CommunityPostRepository>();
 builder.Services.AddScoped<ILfgService, LfgService>();
 builder.Services.AddScoped<ICommunityService, CommunityService>();
+builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
+builder.Services.AddScoped<IBracketMatchRepository, BracketMatchRepository>();
+builder.Services.AddScoped<ITournamentService, TournamentService>();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
