@@ -21,6 +21,10 @@ builder.Services.AddScoped<ICourtSlotService, CourtSlotService>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ILfgCardRepository, LfgCardRepository>();
+builder.Services.AddScoped<ICommunityPostRepository, CommunityPostRepository>();
+builder.Services.AddScoped<ILfgService, LfgService>();
+builder.Services.AddScoped<ICommunityService, CommunityService>();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
