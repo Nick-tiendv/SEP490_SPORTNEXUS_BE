@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using SEP490_SPORTNEXUS_BE.Repositories;
-using SEP490_SPORTNEXUS_BE.Repositories.Entities;
 using SEP490_SPORTNEXUS_BE.Services.RequestModel;
 using SEP490_SPORTNEXUS_BE.Services.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using SEP490_SPORTNEXUS_BE.Services.IServices; // add if Task isn't already in scope
+using SEP490_SPORTNEXUS_BE.Services.IServices;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities; // add if Task isn't already in scope
 
 namespace SEP490_SPORTNEXUS_BE.Services.Implementations
 {
@@ -48,6 +48,8 @@ namespace SEP490_SPORTNEXUS_BE.Services.Implementations
                 Username = request.Username,
                 PasswordHash = HashPassword(request.Password),
                 FullName = request.FullName,
+                Phone = request.Phone,
+                Email = request.Email,
                 RoleId = playerRole.Id,
                 WalletBalance = 0
             });

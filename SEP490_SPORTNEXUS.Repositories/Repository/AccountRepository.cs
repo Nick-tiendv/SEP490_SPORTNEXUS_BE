@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SEP490_SPORTNEXUS_BE.Repositories.Entities;
+using SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities;
 using System;
 using System.Collections.Generic;
 using System.Text;

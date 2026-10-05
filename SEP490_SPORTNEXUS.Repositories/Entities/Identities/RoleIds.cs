@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SEP490_SPORTNEXUS_BE.Repositories.Entities
+namespace SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities
 {
     public static class RoleIds
     {

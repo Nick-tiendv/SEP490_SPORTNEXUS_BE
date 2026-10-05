@@ -2,7 +2,7 @@ using SEP490_SPORTNEXUS_BE.Repositories.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SEP490_SPORTNEXUS_BE.Repositories.Entities
+namespace SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities
 {
     public class Court : Entity<Guid>
     {

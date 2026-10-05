@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SEP490_SPORTNEXUS_BE.Repositories;
@@ -11,9 +12,11 @@ using SEP490_SPORTNEXUS_BE.Repositories;
 namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261003072925_AddUserInfoToAccount")]
+    partial class AddUserInfoToAccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,69 +185,6 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Team", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTimeOffset>("CreateAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedById")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("LogoUrl")
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset?>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.TeamMember", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset>("JoinedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("TeamMembers");
-                });
-
             modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Bookings.Booking", b =>
                 {
                     b.HasOne("SEP490_SPORTNEXUS_BE.Repositories.Entities.Facilities.Court", "Court")
@@ -275,44 +215,9 @@ namespace SEP490_SPORTNEXUS_BE.Repositories.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Team", b =>
-                {
-                    b.HasOne("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Account", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-                });
-
-            modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.TeamMember", b =>
-                {
-                    b.HasOne("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Team", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Team");
-                });
-
             modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Role", b =>
                 {
                     b.Navigation("Accounts");
-                });
-
-            modelBuilder.Entity("SEP490_SPORTNEXUS_BE.Repositories.Entities.Identities.Team", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }
