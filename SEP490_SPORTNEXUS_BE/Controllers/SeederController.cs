@@ -22,7 +22,6 @@ namespace SEP490_SPORTNEXUS_BE.API.Controllers
 {
     [Route("api/v1/seeder")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class SeederController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -33,8 +32,10 @@ namespace SEP490_SPORTNEXUS_BE.API.Controllers
         }
 
         [HttpPost("run")]
-        public async Task<IActionResult> RunSeeder()
+        public async Task<IActionResult> RunSeeder([FromQuery] string secret)
         {
+            if (secret != "SEP490_ADMIN_SECRET_KEY") return Unauthorized(new { message = "Invalid secret key" });
+
             try
             {
                 var rand = new Random();
