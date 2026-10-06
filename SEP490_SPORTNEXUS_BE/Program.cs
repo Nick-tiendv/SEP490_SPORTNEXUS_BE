@@ -72,13 +72,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    // Bật Swagger UI trong môi trường dev
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Cấu hình HTTP request pipeline.
+// Luôn bật Swagger (kể cả trên Render) để dễ test đồ án
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
