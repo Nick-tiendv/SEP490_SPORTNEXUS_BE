@@ -26,8 +26,8 @@ Tài liệu này mô tả danh sách các API chính và luồng hoạt động 
 - **BookingController**:
   - `POST /api/v1/bookings`: Tạo đơn đặt sân. 
   - `POST /api/v1/bookings/{id}/cancel`: Hủy đặt sân.
-- **BackOfficeController**:
-  - `POST /api/v1/backoffice/webhook/payment`: Nhận IPN (Webhook) từ cổng thanh toán (VNPay/Momo) để cập nhật trạng thái đơn hàng.
+- **PaymentController**:
+  - `POST /api/v1/payments/webhook`: Nhận IPN (Webhook) từ cổng thanh toán (VNPay/Momo) để cập nhật trạng thái đơn hàng.
 
 **🔄 Luồng hoạt động (Booking & Split Payment Workflow):**
 1. Host (Người đặt) tìm sân trống qua `CourtSlotController`.
@@ -115,10 +115,10 @@ Dưới đây là danh sách toàn bộ các API đã được code trong Backen
 - **POST** `/api/auth/register-admin` : Đăng ký Admin
 - **POST** `/api/auth/login` : Đăng nhập (Trả về JWT)
 
-### 🏦 BackOfficeController (Xử lý giao dịch & Thông báo)
+### 💳 PaymentController & NotificationController (Xử lý giao dịch & Thông báo)
 - **POST** `/api/v1/payments/webhook` : Nhận Webhook từ cổng thanh toán
-- **GET** `/api/v1/payments` : Lấy danh sách thông báo
-- **PUT** `/api/v1/payments/{id}/read` : Đánh dấu đã đọc
+- **GET** `/api/v1/notifications` : Lấy danh sách thông báo
+- **PUT** `/api/v1/notifications/{id}/read` : Đánh dấu đã đọc
 
 ### 📅 BookingController
 - **POST** `/api/v1/bookings` : Tạo đơn đặt sân
